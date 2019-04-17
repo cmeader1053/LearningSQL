@@ -1,0 +1,58 @@
+#A
+DROP TABLE IF EXISTS CourseGrade;
+DROP TABLE IF EXISTS Course;
+DROP TABLE IF EXISTS Instructor;
+DROP TABLE IF EXISTS Student;
+
+CREATE TABLE Student
+	(StudentID		Integer NOT NULL,
+	FirstName		Varchar(25) NOT NULL,
+	LastName		Varchar(25) NOT NULL,
+	CampusAddress	Varchar(25),
+	Major			Varchar(5),
+CONSTRAINT StudentPK PRIMARY KEY (StudentID));
+
+CREATE TABLE Instructor
+	(InstructorID			Integer NOT NULL,
+	FirstName				Varchar(25) NOT NULL,
+	LastName				Varchar(25) NOT NULL,
+    InstructorLoc			Varchar(10),
+CONSTRAINT InstructorPK PRIMARY KEY (InstructorID));
+
+CREATE TABLE Course
+	(CourseID			Varchar(10) NOT NULL,
+	CourseTitle			Varchar(25) NOT NULL,
+	InstructorID		Integer NOT NULL,
+CONSTRAINT CoursePK PRIMARY KEY (CourseID),
+CONSTRAINT CourseFK1 FOREIGN KEY (InstructorID) REFERENCES Instructor(InstructorID));
+
+CREATE TABLE CourseGrade
+	(StudentID			Integer NOT NULL,
+	CourseID			Varchar(10) NOT NULL,
+	Grade				Varchar(2) NOT NULL,
+CONSTRAINT CourseGradePK PRIMARY KEY (StudentID, CourseID),
+CONSTRAINT CourseGradeFK1 FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+CONSTRAINT CourseGradeFK2 FOREIGN KEY (CourseID) REFERENCES Course(CourseID));
+
+#B
+INSERT INTO Student Values (168300458, 'Ian', 'Williams', '208 Hillcrest', 'IS');
+INSERT INTO Student Values (543291073, 'Will', 'Baker', '112 Claremont', 'ACCT');
+
+INSERT INTO Instructor VALUES (111, 'David', 'Lifer', 'DA 230');
+INSERT INTO Instructor VALUES (222, 'Robert', 'Miller', 'DA 233');
+INSERT INTO Instructor VALUES (333, 'Anil', 'Ajwa', 'PTC 205');
+INSERT INTO Instructor VALUES (444, 'Boris', 'Kerkez', 'PTC 310');
+
+INSERT INTO Course Values ('IS 370', 'Business Programming I', 111);
+INSERT INTO Course Values ('IS 372', 'Systems Analysis', 222);
+INSERT INTO Course Values ('ACCT 121', 'Intro to Accounting', 333);
+INSERT INTO Course Values ('ACCT 230', 'Managerial Accounting', 444);
+
+INSERT INTO CourseGrade VALUES (168300458, 'IS 370', 'A');
+INSERT INTO CourseGrade VALUES (168300458, 'IS 372', 'B+');
+INSERT INTO CourseGrade VALUES (543291073, 'IS 372', 'C');
+INSERT INTO CourseGrade VALUES (543291073, 'ACCT 121', 'B');
+INSERT INTO CourseGrade VALUES (543291073, 'ACCT 230', 'A');
+
+#C 
+UPDATE Instructor SET InstructorLoc = 'DA 206' WHERE InstructorID = 111;
