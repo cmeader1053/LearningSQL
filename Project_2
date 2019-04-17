@@ -1,0 +1,45 @@
+#1
+SELECT VendorID, COUNT(VendorID) as ItemCount 
+FROM vendoritem
+GROUP BY VendorID
+ORDER BY ItemCount DESC;
+
+#2
+SELECT DISTINCT SalespersonID, OrderDate
+FROM customerorder
+WHERE OrderDate BETWEEN '2016-09-01' and '2016-09-31'
+ORDER BY SalespersonID;
+
+#3
+SELECT ShipperName,	ActiveYN
+FROM shipper
+WHERE ActiveYN = 'Y';
+
+#4
+SELECT CustomerID, Discount	
+FROM customer
+WHERE Discount = '.05';
+
+#5
+SELECT SubCategoryID, SUM(Price) as SumPrice
+FROM item
+GROUP BY SubCategoryID
+ORDER BY SumPrice DESC;
+
+#6
+SELECT EmployeeID, ActiveYN, DateHired, datediff('2018-10-06', DateHired)/365.25 as YearsofService
+FROM employee
+WHERE ActiveYN = 'Y'
+ORDER BY YearsofService DESC;
+
+#7
+SELECT CustomerID, COUNT(CustomerID) AS OrderCount
+FROM customerorder
+GROUP BY CustomerID
+ORDER BY CustomerID DESC;
+
+#8
+SELECT TechnicianID, Certifications
+FROM technician
+WHERE Certifications LIKE '%SAP'
+ORDER BY TechnicianID;
