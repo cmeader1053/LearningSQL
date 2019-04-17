@@ -1,0 +1,63 @@
+#1
+SELECT P.FirstName, P.LastName, T.Certifications
+FROM Person P LEFT JOIN Technician T ON P.PersonID = T.TechnicianID
+ORDER BY P.LastName;
+
+
+#2
+SELECT C.CategoryID, C.CategoryName, SUM(COI.OrderPrice * COI.Quantity) AS TotalSales
+FROM Category C, SubCategory SC, Item I, CustomerOrderItem COI
+WHERE C.CategoryID = SC.SubCategoryID
+AND SC.SubcategoryID = I.ItemID
+AND I.ItemID = COI.CustomerOrderID
+GROUP BY CategoryID
+ORDER BY CategoryID;
+
+#3
+SELECT P.State, CAST(AVG(COI.OrderPrice * COI.Quantity) AS DECIMAL(10,2)) AS AverageSales
+FROM Person P, Customer C, CustomerOrder CO, CustomerOrderItem COI
+WHERE P.PersonID = C.CustomerID
+AND C.CustomerID = CO.CustomerID
+AND CO.CustomerOrderID = COI.CustomerOrderID
+GROUP BY State
+ORDER BY AverageSales DESC;
+
+#4
+SELECT P.LastName, P.PhoneNbr
+FROM Person P, Customer C, CustomerOrder CO, CustomerOrderItem COI
+WHERE P.PersonID = C.CustomerID
+AND C.CustomerID = CO.CustomerID
+AND CO.CustomerOrderID = COI.CustomerOrderID
+AND COI.ItemID = 377
+ORDER BY P.LastName;
+
+#5
+SELECT P.FirstName, P.LastName, S.SalesGoal, SUM(COI.OrderPrice * COI.Quantity) AS SalesToDate
+FROM Person P, Employee E, Salesperson S, CustomerOrder CO, CustomerOrderItem COI
+WHERE P.PersonID = E.EmployeeID
+AND E.EmployeeID = S.SalespersonID
+AND S.SalespersonID = CO.SalespersonID
+AND CO.CustomerOrderID = COI.CustomerOrderID
+GROUP BY LastName
+ORDER BY LastName;
+
+#6
+SELECT P.FirstName, P.LastName, S.SalesGoal, SUM(COI.OrderPrice * COI.Quantity) AS SalesToDate
+FROM Person P, Employee E, Salesperson S, CustomerOrder CO, CustomerOrderItem COI
+WHERE P.PersonID = E.EmployeeID
+AND E.EmployeeID = S.SalespersonID
+AND S.SalespersonID = CO.SalespersonID
+AND CO.CustomerOrderID = COI.CustomerOrderID
+GROUP BY LastName
+HAVING SalesGoal > SalesToDate
+ORDER BY LastName;
+
+#7
+SELECT P.FirstName, P.LastName, P.PhoneNbr
+FROM Person P LEFT JOIN Customer C ON P.PersonID = C.CustomerID
+WHERE P.PhoneNbr LIKE '915%'
+ORDER BY P.FirstName;
+
+#8
+SELECT AVG(CO.OrderDate - S.ShipmentDate) AS AverageShipTime
+FROM CustomerOrder CO, Shipment S;
